@@ -1,4 +1,3 @@
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +18,13 @@ public class User {
 	public void register() {
 		scanner.nextLine();
 		System.out.println("Full Name: ");
+		System.out.println();
 		String full_name = scanner.nextLine();
 		System.out.println("Email: ");
+		System.out.println();
 		String email = scanner.nextLine();
 		System.out.println("Password: ");
+		System.out.println();
 		String password = scanner.nextLine();
 		
 		if(user_exist(email)) {
@@ -50,17 +52,27 @@ public class User {
 	public String login() {
 		scanner.nextLine();
 		System.out.println("Email: ");
+		System.out.println();
 		String email = scanner.nextLine();
 		System.out.println("Password: ");
+		System.out.println();
 		String password = scanner.nextLine();
-		String login_query = "Select * from user where email = ? and password = ?;";
+		String login_query = "select * from user where email = ? and password = ?;";
 		try {
 			PreparedStatement preparedStatement = connection.prepareStatement(login_query);
 			preparedStatement.setString(1, email);
-			preparedStatement.setString(1, password);
+			preparedStatement.setString(2, password);
+			ResultSet resultset = preparedStatement.executeQuery();
+			if(resultset.next()) {
+				return email;
+			}else {
+				return null;
+			}
 		}catch(SQLException e) {
+			System.out.println("user_login_error");
 			e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public boolean user_exist(String email) {

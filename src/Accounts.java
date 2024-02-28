@@ -15,13 +15,12 @@ public class Accounts {
 	public long open_account(String email) {
 		if(!account_exist(email)) {
 			String open_query = "insert into account(account_number, full_name, email, balance, security_pin) values(?,?,?,?,?);";
-			scanner.nextLine();
-			System.out.println("Full Name: ")
+			System.out.println("Full Name: ");
 			String full_name = scanner.nextLine();
 			System.out.println("Opening Balance: ");
 			double balance = scanner.nextDouble();
 			System.out.println("Security Pin(4 Digits): ");
-			String secuity_pin = scanner.nextLine();
+			String security_pin = scanner.nextLine();
 			try {
 				long account_number = generateAccountNumber();
 				PreparedStatement preparedStatement = connection.prepareStatement(open_query);
@@ -29,7 +28,8 @@ public class Accounts {
 				preparedStatement.setString(2,full_name);
 				preparedStatement.setString(3,email);
 				preparedStatement.setDouble(4,balance);
-				preparedStatement.setString(5,secuity_pin);
+				preparedStatement.setString(5,security_pin);
+				
 				int affectedrow = preparedStatement.executeUpdate();
 				if(affectedrow>0) {
 					return account_number;
